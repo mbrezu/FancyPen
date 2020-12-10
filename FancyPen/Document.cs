@@ -4,7 +4,7 @@ namespace FancyPen
 {
     public record Document()
     {
-        public static Document NoBreak(params Document[] children)
+        public static Document NeverBreak(params Document[] children)
         {
             return new NeverBreak(children);
         }
@@ -18,6 +18,11 @@ namespace FancyPen
         {
             return new Nest(amount, child);
         }
+
+        public static Document MaybeBreak(params Document[] children)
+        {
+            return new MaybeBreak(children);
+        }
     }
 
     record StringDocument(string Content): Document;
@@ -27,4 +32,6 @@ namespace FancyPen
     record AlwaysBreak(IEnumerable<Document> Children) : Document;
 
     record Nest(int Amount, Document Child) : Document;
+
+    record MaybeBreak(IEnumerable<Document> Children) : Document;
 }

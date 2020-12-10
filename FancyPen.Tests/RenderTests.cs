@@ -11,7 +11,7 @@ namespace FancyPen.Tests
         public void NeverBreakBasic()
         {
             // Arrange
-            var doc = Document.NoBreak(
+            var doc = Document.NeverBreak(
                 "hello".AsDocument(),
                 " ".AsDocument(),
                 "world!".AsDocument()
@@ -64,6 +64,44 @@ namespace FancyPen.Tests
 
             // Assert
             sb.ToString().Should().Be($"hello{nl}  world!");
+        }
+
+        [Fact]
+        public void MaybeBreakWithBreaks()
+        {
+            // Arrange
+            var doc = Document.MaybeBreak(
+                "hello, ".AsDocument(),
+                "world!".AsDocument()
+            );
+            var renderer = new Renderer(10);
+            var sb = new StringBuilder();
+            var nl = Environment.NewLine;
+
+            // Act
+            renderer.Render(doc, sb);
+
+            // Assert
+            sb.ToString().Should().Be($"hello, {nl}world!");
+        }
+
+        [Fact]
+        public void MaybeBreakWithoutBreaks()
+        {
+            // Arrange
+            var doc = Document.MaybeBreak(
+                "hello, ".AsDocument(),
+                "world!".AsDocument()
+            );
+            var renderer = new Renderer();
+            var sb = new StringBuilder();
+            var nl = Environment.NewLine;
+
+            // Act
+            renderer.Render(doc, sb);
+
+            // Assert
+            sb.ToString().Should().Be($"hello, world!");
         }
     }
 }

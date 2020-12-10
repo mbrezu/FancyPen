@@ -7,7 +7,7 @@ namespace FancyPen.Playground
     {
         static void Main(string[] args)
         {
-            var doc = Document.NoBreak(
+            var doc = Document.NeverBreak(
                 "hello".AsDocument(),
                 " ".AsDocument(),
                 "world!".AsDocument()
