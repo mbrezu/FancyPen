@@ -13,11 +13,18 @@ namespace FancyPen
         {
             return new AlwaysBreak(children);
         }
+
+        public static Document Nest(int amount, Document child)
+        {
+            return new Nest(amount, child);
+        }
     }
 
-    public record StringDocument(string Content): Document;
+    record StringDocument(string Content): Document;
 
-    public record NeverBreak(IEnumerable<Document> Children) : Document;
+    record NeverBreak(IEnumerable<Document> Children) : Document;
 
-    public record AlwaysBreak(IEnumerable<Document> Children) : Document;
+    record AlwaysBreak(IEnumerable<Document> Children) : Document;
+
+    record Nest(int Amount, Document Child) : Document;
 }

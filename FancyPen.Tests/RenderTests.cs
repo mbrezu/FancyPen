@@ -8,7 +8,7 @@ namespace FancyPen.Tests
     public class RenderTests
     {
         [Fact]
-        public void NeverBreakBasicTest()
+        public void NeverBreakBasic()
         {
             // Arrange
             var doc = Document.NoBreak(
@@ -28,7 +28,7 @@ namespace FancyPen.Tests
 
 
         [Fact]
-        public void AlwaysBreakBasicTest()
+        public void AlwaysBreakBasic()
         {
             // Arrange
             var doc = Document.AlwaysBreak(
@@ -45,6 +45,25 @@ namespace FancyPen.Tests
 
             // Assert
             sb.ToString().Should().Be($"hello{nl} {nl}world!");
+        }
+
+        [Fact]
+        public void AlwaysBreakWithNest()
+        {
+            // Arrange
+            var doc = Document.Nest(2, Document.AlwaysBreak(
+                "hello".AsDocument(),
+                "world!".AsDocument()
+            ));
+            var renderer = new Renderer();
+            var sb = new StringBuilder();
+            var nl = Environment.NewLine;
+
+            // Act
+            renderer.Render(doc, sb);
+
+            // Assert
+            sb.ToString().Should().Be($"hello{nl}  world!");
         }
     }
 }

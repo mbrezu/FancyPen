@@ -6,6 +6,8 @@ namespace FancyPen
 {
     public class Renderer
     {
+        private int _indentation = 0;
+
         public void Render(Document document, StringBuilder destination)
         {
             switch (document)
@@ -18,6 +20,11 @@ namespace FancyPen
                     break;
                 case AlwaysBreak d:
                     RenderAlwaysBreak(destination, d);
+                    break;
+                case Nest d:
+                    _indentation += d.Amount;
+                    Render(d.Child, destination);
+                    _indentation -= d.Amount;
                     break;
                 default:
                     throw new NotImplementedException();
@@ -41,6 +48,7 @@ namespace FancyPen
             if (rest.Any()) {
                 foreach (var child in rest) {
                     destination.AppendLine();
+                    destination.Append(new string(' ', _indentation));
                     Render(child, destination);
                 }
             }
