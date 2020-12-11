@@ -1,3 +1,4 @@
 - todo:
   - [ ] one more example for something else?
   - [ ] nuget more metadata (https://docs.microsoft.com/en-us/dotnet/core/tools/csproj#nuget-metadata-properties)
+  - [ ] nuget for FancyPen.Json
