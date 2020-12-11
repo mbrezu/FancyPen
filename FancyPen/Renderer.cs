@@ -35,17 +35,14 @@ namespace FancyPen
                 case AlwaysBreak doc:
                     RenderAlwaysBreak(doc, destination);
                     break;
-                case Nest doc:
-                    _indentation += doc.Amount;
-                    if (String.IsNullOrWhiteSpace(_currentLine.ToString()) && _currentLine.Length < _indentation)
-                    {
-                        _currentLine.Append(new string(' ', _indentation - _currentLine.Length));
-                    }
-                    RenderImpl(doc.Child, destination);
-                    _indentation -= doc.Amount;
-                    break;
                 case MaybeBreak doc:
                     RenderMaybeBreak(doc, destination);
+                    break;
+                case Indent doc:
+                    RenderIndent(destination, doc);
+                    break;
+                case SaveIndentation doc:
+                    RenderSaveIndentation(destination, doc);
                     break;
                 default:
                     throw new NotImplementedException();
@@ -90,6 +87,25 @@ namespace FancyPen
             {
                 RenderImpl(new AlwaysBreak(doc.Children), destination);
             }
+        }
+
+        private void RenderIndent(StringBuilder destination, Indent doc)
+        {
+            _indentation += doc.Amount;
+            if (String.IsNullOrWhiteSpace(_currentLine.ToString()) && _currentLine.Length < _indentation)
+            {
+                _currentLine.Append(new string(' ', _indentation - _currentLine.Length));
+            }
+            RenderImpl(doc.Child, destination);
+            _indentation -= doc.Amount;
+        }
+
+        private void RenderSaveIndentation(StringBuilder destination, SaveIndentation doc)
+        {
+            var oldIndentation = _indentation;
+            _indentation = _currentLine.Length;
+            RenderImpl(doc.Child, destination);
+            _indentation = oldIndentation;
         }
     }
 }

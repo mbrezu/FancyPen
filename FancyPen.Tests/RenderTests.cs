@@ -7,6 +7,8 @@ namespace FancyPen.Tests
 {
     public class RenderTests
     {
+        private string _nl = Environment.NewLine;
+
         [Fact]
         public void NeverBreakBasic()
         {
@@ -37,32 +39,30 @@ namespace FancyPen.Tests
             );
             var renderer = new Renderer();
             var sb = new StringBuilder();
-            var nl = Environment.NewLine;
 
             // Act
             renderer.Render(doc, sb);
 
             // Assert
-            sb.ToString().Should().Be($"hello{nl} {nl}world!");
+            sb.ToString().Should().Be($"hello{_nl} {_nl}world!");
         }
 
         [Fact]
-        public void AlwaysBreakWithNest()
+        public void AlwaysBreakWithIndent()
         {
             // Arrange
-            var doc = Document.Nest(2, Document.AlwaysBreak(
+            var doc = Document.Indent(2, Document.AlwaysBreak(
                 "hello".AsDocument(),
                 "world!".AsDocument()
             ));
             var renderer = new Renderer();
             var sb = new StringBuilder();
-            var nl = Environment.NewLine;
 
             // Act
             renderer.Render(doc, sb);
 
             // Assert
-            sb.ToString().Should().Be($"  hello{nl}  world!");
+            sb.ToString().Should().Be($"  hello{_nl}  world!");
         }
 
         [Fact]
@@ -75,13 +75,12 @@ namespace FancyPen.Tests
             );
             var renderer = new Renderer(10);
             var sb = new StringBuilder();
-            var nl = Environment.NewLine;
 
             // Act
             renderer.Render(doc, sb);
 
             // Assert
-            sb.ToString().Should().Be($"hello, {nl}world!");
+            sb.ToString().Should().Be($"hello, {_nl}world!");
         }
 
         [Fact]
@@ -94,13 +93,12 @@ namespace FancyPen.Tests
             ));
             var renderer = new Renderer(16);
             var sb = new StringBuilder();
-            var nl = Environment.NewLine;
 
             // Act
             renderer.Render(doc, sb);
 
             // Assert
-            sb.ToString().Should().Be($"    hello, {nl}world!");
+            sb.ToString().Should().Be($"    hello, {_nl}world!");
         }
 
         [Fact]
@@ -113,7 +111,6 @@ namespace FancyPen.Tests
             );
             var renderer = new Renderer();
             var sb = new StringBuilder();
-            var nl = Environment.NewLine;
 
             // Act
             renderer.Render(doc, sb);
@@ -128,7 +125,7 @@ namespace FancyPen.Tests
             // Arrange
             var doc = Document.MaybeBreak(
                 "[".AsDocument(),
-                Document.Nest(2, 
+                Document.Indent(2,
                     Document.MaybeBreak(
                         "a, ".AsDocument(),
                         "b, ".AsDocument(),
@@ -136,13 +133,12 @@ namespace FancyPen.Tests
                 "]".AsDocument());
             var renderer = new Renderer(2);
             var sb = new StringBuilder();
-            var nl = Environment.NewLine;
 
             // Act
             renderer.Render(doc, sb);
 
             // Assert
-            sb.ToString().Should().Be($"[{nl}  a, {nl}  b, {nl}  c{nl}]");
+            sb.ToString().Should().Be($"[{_nl}  a, {_nl}  b, {_nl}  c{_nl}]");
         }
 
         [Fact]
@@ -151,7 +147,7 @@ namespace FancyPen.Tests
             // Arrange
             var doc = Document.MaybeBreak(
                 "[".AsDocument(),
-                Document.Nest(1, 
+                Document.Indent(1,
                     Document.MaybeBreak(
                         "a, ".AsDocument(),
                         "b, ".AsDocument(),
@@ -159,13 +155,57 @@ namespace FancyPen.Tests
                 "]".AsDocument());
             var renderer = new Renderer(8);
             var sb = new StringBuilder();
-            var nl = Environment.NewLine;
 
             // Act
             renderer.Render(doc, sb);
 
             // Assert
-            sb.ToString().Should().Be($"[{nl} a, b, c{nl}]");
+            sb.ToString().Should().Be($"[{_nl} a, b, c{_nl}]");
+        }
+
+        [Fact]
+        public void WithSeparator()
+        {
+            // Arrange
+            var doc = Document.NeverBreak(
+                "[".AsDocument(),
+                    Document.NeverBreak(
+                        Document.WithSeparator(",".AsDocument(),
+                            "a".AsDocument(),
+                            "b".AsDocument(),
+                            "c".AsDocument())),
+                "]".AsDocument());
+            var renderer = new Renderer();
+            var sb = new StringBuilder();
+
+            // Act
+            renderer.Render(doc, sb);
+
+            // Assert
+            sb.ToString().Should().Be($"[a,b,c]");
+        }
+
+        [Fact]
+        public void SaveIndentation()
+        {
+            // Arrange
+            var doc = Document.NeverBreak(
+                "[".AsDocument(),
+                    Document.SaveIndentation(
+                        Document.MaybeBreak(
+                            Document.WithSeparator(",".AsDocument(),
+                                "a".AsDocument(),
+                                "b".AsDocument(),
+                                "c".AsDocument()))),
+                "]".AsDocument());
+            var renderer = new Renderer(5);
+            var sb = new StringBuilder();
+
+            // Act
+            renderer.Render(doc, sb);
+
+            // Assert
+            sb.ToString().Should().Be($"[a,{_nl} b,{_nl} c]");
         }
     }
 }

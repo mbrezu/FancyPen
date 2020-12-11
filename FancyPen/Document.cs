@@ -1,28 +1,42 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace FancyPen
 {
     public record Document()
     {
-        public static Document NeverBreak(params Document[] children)
-        {
-            return new NeverBreak(children);
-        }
+        public static Document NeverBreak(params Document[] children) 
+            => new NeverBreak(children);
 
         public static Document AlwaysBreak(params Document[] children)
-        {
-            return new AlwaysBreak(children);
-        }
+            => new AlwaysBreak(children);
 
-        public static Document Nest(int amount, Document child)
-        {
-            return new Nest(amount, child);
-        }
+        public static Document Indent(int amount, Document child)
+            => new Indent(amount, child);
 
         public static Document MaybeBreak(params Document[] children)
+            => new MaybeBreak(children);
+
+        public static Document[] WithSeparator(Document separator, params Document[] children)
         {
-            return new MaybeBreak(children);
+            List<Document> result = new();
+            for (int i = 0; i < children.Length; i++)
+            {
+                if (i < children.Length - 1)
+                {
+                    result.Add(Document.NeverBreak(children[i], separator));
+                }
+                else
+                {
+                    result.Add(children[i]);
+                }
+            }
+            return result.ToArray();
         }
+
+        public static Document SaveIndentation(Document child)
+            => new SaveIndentation(child);
     }
 
     record StringDocument(string Content): Document;
@@ -31,7 +45,9 @@ namespace FancyPen
 
     record AlwaysBreak(IEnumerable<Document> Children) : Document;
 
-    record Nest(int Amount, Document Child) : Document;
+    record Indent(int Amount, Document Child) : Document;
 
     record MaybeBreak(IEnumerable<Document> Children) : Document;
+
+    record SaveIndentation(Document Child) : Document;
 }
