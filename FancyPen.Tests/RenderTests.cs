@@ -11,10 +11,10 @@ namespace FancyPen.Tests
         private StringBuilder _sb = new();
 
         [Fact]
-        public void NeverBreakBasic()
+        public void ConcatBasic()
         {
             // Arrange
-            var doc = Document.NeverBreak(
+            var doc = Document.Concat(
                 "hello",
                 " ",
                 "world!"
@@ -29,10 +29,10 @@ namespace FancyPen.Tests
         }
 
         [Fact]
-        public void AlwaysBreakBasic()
+        public void ConcatLinesBasic()
         {
             // Arrange
-            var doc = Document.AlwaysBreak(
+            var doc = Document.ConcatLines(
                 "hello",
                 " ",
                 "world!"
@@ -47,10 +47,10 @@ namespace FancyPen.Tests
         }
 
         [Fact]
-        public void AlwaysBreakWithIndent()
+        public void ConcatLinesWithIndent()
         {
             // Arrange
-            var doc = Document.Indent(2, Document.AlwaysBreak(
+            var doc = Document.Indent(2, Document.ConcatLines(
                 "hello",
                 "world!"
             ));
@@ -64,10 +64,10 @@ namespace FancyPen.Tests
         }
 
         [Fact]
-        public void MaybeBreakWithBreaks()
+        public void FormatWithBreaks()
         {
             // Arrange
-            var doc = Document.MaybeBreak(
+            var doc = Document.Format(
                 "hello, ",
                 "world!"
             );
@@ -81,10 +81,10 @@ namespace FancyPen.Tests
         }
 
         [Fact]
-        public void MaybeBreakWithBreaksAndIndentation()
+        public void FormatWithBreaksAndIndentation()
         {
             // Arrange
-            var doc = Document.NeverBreak("    ", Document.MaybeBreak(
+            var doc = Document.Concat("    ", Document.Format(
                 "hello, ",
                 "world!"
             ));
@@ -98,10 +98,10 @@ namespace FancyPen.Tests
         }
 
         [Fact]
-        public void MaybeBreakWithoutBreaks()
+        public void FormatWithoutBreaks()
         {
             // Arrange
-            var doc = Document.MaybeBreak(
+            var doc = Document.Format(
                 "hello, ",
                 "world!"
             );
@@ -118,10 +118,10 @@ namespace FancyPen.Tests
         public void MildlyUseful()
         {
             // Arrange
-            var doc = Document.MaybeBreak(
+            var doc = Document.Format(
                 "[",
                 Document.Indent(2,
-                    Document.MaybeBreak(
+                    Document.Format(
                         "a, ",
                         "b, ",
                         "c")),
@@ -139,10 +139,10 @@ namespace FancyPen.Tests
         public void MildlyUsefulTake2()
         {
             // Arrange
-            var doc = Document.MaybeBreak(
+            var doc = Document.Format(
                 "[",
                 Document.Indent(1,
-                    Document.MaybeBreak(
+                    Document.Format(
                         "a, ",
                         "b, ",
                         "c")),
@@ -160,9 +160,9 @@ namespace FancyPen.Tests
         public void WithSeparator()
         {
             // Arrange
-            var doc = Document.NeverBreak(
+            var doc = Document.Concat(
                 "[",
-                    Document.NeverBreak(
+                    Document.Concat(
                         Document.WithSeparator(",",
                             "a",
                             "b",
@@ -181,10 +181,10 @@ namespace FancyPen.Tests
         public void SaveIndentation()
         {
             // Arrange
-            var doc = Document.NeverBreak(
+            var doc = Document.Concat(
                 "[",
                     Document.SaveIndentation(
-                        Document.MaybeBreak(
+                        Document.Format(
                             Document.WithSeparator(",",
                                 "a",
                                 "b",
@@ -200,12 +200,12 @@ namespace FancyPen.Tests
         }
 
         [Fact]
-        public void MaybeBreakSeparator()
+        public void FormatSeparator()
         {
             // Arrange
-            var doc = Document.NeverBreak(
+            var doc = Document.Concat(
                 "[",
-                Document.MaybeBreakSeparator(
+                Document.FormatSeparator(
                     " ",
                     Document.WithSeparator(
                         ",",
@@ -279,10 +279,10 @@ namespace FancyPen.Tests
 
         private Document MakeArraySaveIndentation(params Document[] documents)
         {
-            return Document.NeverBreak(
+            return Document.Concat(
                 "[",
                 Document.SaveIndentation(
-                    Document.MaybeBreakSeparator(
+                    Document.FormatSeparator(
                         " ",
                         Document.WithSeparator(
                             ",",
@@ -294,11 +294,11 @@ namespace FancyPen.Tests
 
         private Document MakeArrayIndent(params Document[] documents)
         {
-            return Document.MaybeBreak(
+            return Document.Format(
                 "[",
                 Document.Indent(
                     4,
-                    Document.MaybeBreakSeparator(
+                    Document.FormatSeparator(
                         " ",
                         Document.WithSeparator(
                             ",",

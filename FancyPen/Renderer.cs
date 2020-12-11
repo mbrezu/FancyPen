@@ -35,17 +35,17 @@ namespace FancyPen
                 case StringDocument doc:
                     _currentLine.Append(doc.Content);
                     break;
-                case NeverBreak doc:
-                    RenderNeverBreak(doc, destination);
+                case Concat doc:
+                    RenderConcat(doc, destination);
                     break;
-                case AlwaysBreak doc:
-                    RenderAlwaysBreak(doc, destination);
+                case ConcatLines doc:
+                    RenderConcatLines(doc, destination);
                     break;
-                case MaybeBreak doc:
-                    RenderMaybeBreak(null, doc.Children, destination);
+                case Format doc:
+                    RenderFormat(null, doc.Children, destination);
                     break;
-                case MaybeBreakSeparator doc:
-                    RenderMaybeBreak(doc.Separator, doc.Children, destination);
+                case FormatSeparator doc:
+                    RenderFormat(doc.Separator, doc.Children, destination);
                     break;
                 case Indent doc:
                     RenderIndent(destination, doc);
@@ -58,7 +58,7 @@ namespace FancyPen
             }
         }
 
-        private void RenderNeverBreak(NeverBreak doc, StringBuilder destination)
+        private void RenderConcat(Concat doc, StringBuilder destination)
         {
             foreach (var child in doc.Children)
             {
@@ -66,7 +66,7 @@ namespace FancyPen
             }
         }
 
-        private void RenderAlwaysBreak(AlwaysBreak doc, StringBuilder destination)
+        private void RenderConcatLines(ConcatLines doc, StringBuilder destination)
         {
             if (doc.Children.Any()) {
                 RenderImpl(doc.Children.First(), destination);
@@ -83,7 +83,7 @@ namespace FancyPen
             }
         }
 
-        private void RenderMaybeBreak(
+        private void RenderFormat(
             Document separator,
             IEnumerable<Document> children,
             StringBuilder destination)
@@ -94,12 +94,12 @@ namespace FancyPen
             if (separator != null)
             {
                 otherRenderer.Render(
-                    new NeverBreak(Document.WithSeparator(separator, children.ToArray())),
+                    new Concat(Document.WithSeparator(separator, children.ToArray())),
                     oneLineDestination);
             }
             else
             {
-                otherRenderer.Render(new NeverBreak(children), oneLineDestination);
+                otherRenderer.Render(new Concat(children), oneLineDestination);
             }
             if (_currentLine.Length + oneLineDestination.Length <= _maxColumn)
             {
@@ -107,7 +107,7 @@ namespace FancyPen
             }
             else
             {
-                RenderImpl(new AlwaysBreak(children), destination);
+                RenderImpl(new ConcatLines(children), destination);
             }
         }
 

@@ -7,7 +7,7 @@ namespace FancyPen.Playground
     {
         static void Main(string[] args)
         {
-            var doc = Document.NeverBreak(
+            var doc = Document.Concat(
                 "hello",
                 " ",
                 "world!"
