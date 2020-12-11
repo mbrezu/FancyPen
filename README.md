@@ -27,7 +27,7 @@ As examples of how to use these primitives, see the [Utils](https://github.com/m
 
 # Usage
 
-See the [Renderer tests](https://github.com/mbrezu/FancyPen/blob/master/FancyPen.Json/PrettyPrinter.cs).
+See the [Renderer tests](https://github.com/mbrezu/FancyPen/blob/master/FancyPen.Tests/RenderTests.cs).
 
 # Examples
 
