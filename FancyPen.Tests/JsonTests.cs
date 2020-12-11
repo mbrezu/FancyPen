@@ -125,18 +125,28 @@ namespace FancyPen.Tests
         }
 
         [Fact]
-        public void MildlyComplex()
+        public void MildlyComplexKeepIndentation()
         {
             // Arrange
-            dynamic obj = new ExpandoObject();
-            obj.age = 20;
-            obj.name = "John";
-            obj.address = new ExpandoObject();
-            obj.address.street = "Main";
-            obj.address.number = 20;
-            obj.address.city = "Smallville";
-            obj.array = new [] { 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000 };
-            string jsonStr = JsonSerializer.Serialize(obj);
+            string jsonStr = CreateComplexJson();
+            var json = JsonDocument.Parse(jsonStr);
+
+            // Act
+            var result = FancyPen.Json.PrettyPrinter.Print(json);
+
+            // Assert
+            result.Should().Be(@"{ ""age"": 20,
+  ""name"": ""John"",
+  ""address"": { ""street"": ""Main"", ""number"": 20, ""city"": ""Smallville"" },
+  ""array"": [ 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000 ] }"
+                .Replace("\n", Environment.NewLine));
+        }
+
+        [Fact]
+        public void MildlyComplexIndentAmount()
+        {
+            // Arrange
+            string jsonStr = CreateComplexJson();
             var json = JsonDocument.Parse(jsonStr);
 
             // Act
@@ -164,6 +174,20 @@ namespace FancyPen.Tests
         10000
     ]
 }".Replace("\n", Environment.NewLine));
+        }
+
+        private static string CreateComplexJson()
+        {
+            dynamic obj = new ExpandoObject();
+            obj.age = 20;
+            obj.name = "John";
+            obj.address = new ExpandoObject();
+            obj.address.street = "Main";
+            obj.address.number = 20;
+            obj.address.city = "Smallville";
+            obj.array = new[] { 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000 };
+            string jsonStr = JsonSerializer.Serialize(obj);
+            return jsonStr;
         }
     }
 }
