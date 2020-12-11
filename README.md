@@ -7,6 +7,8 @@
 A library to help writers of pretty printers by providing a useful indirection. Heavily inspired by
 Philip Wadler's ["A prettier printer"](http://homepages.inf.ed.ac.uk/wadler/papers/prettier/prettier.pdf) article.
 
+Nuget package: https://www.nuget.org/packages/FancyPen/.
+
 # Description
 
 The indirection is a [Document](https://github.com/mbrezu/FancyPen/blob/8bf9a226c32a32112101f88fed373603c8c0954d/FancyPen/Document.cs) which the [Renderer](https://github.com/mbrezu/FancyPen/blob/master/FancyPen/Renderer.cs) knows how to [Render](https://github.com/mbrezu/FancyPen/blob/master/FancyPen/Renderer.cs#L20).

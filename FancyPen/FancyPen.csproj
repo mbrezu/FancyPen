@@ -2,6 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <PackageId>FancyPen</PackageId>
+    <Version>0.0.1</Version>
+    <Authors>Miron Brezuleanu</Authors>
   </PropertyGroup>
 
 </Project>
