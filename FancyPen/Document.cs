@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace FancyPen
 {
@@ -37,6 +35,9 @@ namespace FancyPen
 
         public static Document SaveIndentation(Document child)
             => new SaveIndentation(child);
+
+        public static Document MaybeBreakSeparator(Document separator, params Document[] children)
+            => new MaybeBreakSeparator(separator, children);
     }
 
     record StringDocument(string Content): Document;
@@ -50,4 +51,6 @@ namespace FancyPen
     record MaybeBreak(IEnumerable<Document> Children) : Document;
 
     record SaveIndentation(Document Child) : Document;
+
+    record MaybeBreakSeparator(Document Separator, IEnumerable<Document> Children): Document;
 }

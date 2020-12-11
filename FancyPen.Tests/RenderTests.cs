@@ -215,5 +215,67 @@ namespace FancyPen.Tests
             // Assert
             _sb.ToString().Length.Should().BeLessThan("hello, world!".Length);
         }
+
+        [Fact]
+        public void MaybeBreakSeparator()
+        {
+            // Arrange
+            var doc = Document.NeverBreak(
+                "[".AsDocument(),
+                Document.MaybeBreakSeparator(
+                    " ".AsDocument(),
+                    Document.WithSeparator(
+                        ",".AsDocument(),
+                        "a".AsDocument(),
+                        "b".AsDocument(),
+                        "c".AsDocument()
+                    )
+                ),
+                "]".AsDocument());
+            var renderer = new Renderer();
+
+            // Act
+            renderer.Render(doc, _sb);
+
+            // Assert
+            _sb.ToString().Should().Be("[a, b, c]");
+        }
+
+        [Fact]
+        public void MildlyComplex()
+        {
+            // Arrange
+            var doc = MakeArray(
+                "a".AsDocument(),
+                "b".AsDocument(),
+                "c".AsDocument(),
+                MakeArray(
+                    "d".AsDocument(),
+                    "e".AsDocument(),
+                    "f".AsDocument())
+            );
+            var renderer = new Renderer(5);
+
+            // Act
+            renderer.Render(doc, _sb);
+
+            // Assert
+            _sb.ToString().Should().Be($"[a,{_nl} b,{_nl} c,{_nl} [d,{_nl}  e,{_nl}  f]]");
+        }
+
+        private Document MakeArray(params Document[] documents)
+        {
+            return Document.NeverBreak(
+                "[".AsDocument(),
+                Document.SaveIndentation(
+                    Document.MaybeBreakSeparator(
+                        " ".AsDocument(),
+                        Document.WithSeparator(
+                            ",".AsDocument(),
+                            documents
+                        )
+                    )),
+                "]".AsDocument());
+        }
     }
 }

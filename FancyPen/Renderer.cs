@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -42,7 +43,10 @@ namespace FancyPen
                     RenderAlwaysBreak(doc, destination);
                     break;
                 case MaybeBreak doc:
-                    RenderMaybeBreak(doc, destination);
+                    RenderMaybeBreak(null, doc.Children, destination);
+                    break;
+                case MaybeBreakSeparator doc:
+                    RenderMaybeBreak(doc.Separator, doc.Children, destination);
                     break;
                 case Indent doc:
                     RenderIndent(destination, doc);
@@ -80,18 +84,30 @@ namespace FancyPen
             }
         }
 
-        private void RenderMaybeBreak(MaybeBreak doc, StringBuilder destination)
+        private void RenderMaybeBreak(
+            Document separator,
+            IEnumerable<Document> children,
+            StringBuilder destination)
         {
             var otherRenderer = new Renderer(int.MaxValue, _maxColumn);
             var oneLineDestination = new StringBuilder();
-            otherRenderer.Render(new NeverBreak(doc.Children), oneLineDestination);
+            if (separator != null)
+            {
+                otherRenderer.Render(
+                    new NeverBreak(Document.WithSeparator(separator, children.ToArray())),
+                    oneLineDestination);
+            }
+            else
+            {
+                otherRenderer.Render(new NeverBreak(children), oneLineDestination);
+            }
             if (_currentLine.Length + oneLineDestination.Length <= _maxColumn)
             {
                 _currentLine.Append(oneLineDestination);
             }
             else
             {
-                RenderImpl(new AlwaysBreak(doc.Children), destination);
+                RenderImpl(new AlwaysBreak(children), destination);
             }
         }
 
