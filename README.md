@@ -8,6 +8,7 @@ A library to help writers of pretty printers by providing a useful indirection. 
 Philip Wadler's ["A prettier printer"](http://homepages.inf.ed.ac.uk/wadler/papers/prettier/prettier.pdf) article.
 
 Nuget package: https://www.nuget.org/packages/FancyPen/.
+Nuget package for JSON example: https://www.nuget.org/packages/FancyPen.Json/.
 
 # Description
 
