@@ -1,4 +1,3 @@
 - todo:
   - [ ] one more example for something else?
-  - [ ] documentation
-  - [ ] nuget
+  - [ ] nuget more metadata (https://docs.microsoft.com/en-us/dotnet/core/tools/csproj#nuget-metadata-properties)
