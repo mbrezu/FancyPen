@@ -6,6 +6,12 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <PackageId>FancyPen.Json</PackageId>
+    <Version>0.0.2</Version>
+    <Authors>Miron Brezuleanu</Authors>
+    <PackageLicenseExpression>BSD-2-Clause</PackageLicenseExpression>
+    <IncludeSource>true</IncludeSource>
+    <RepositoryUrl>https://github.com/mbrezu/FancyPen</RepositoryUrl>
   </PropertyGroup>
 
 </Project>
