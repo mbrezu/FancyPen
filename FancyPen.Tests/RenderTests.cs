@@ -198,5 +198,22 @@ namespace FancyPen.Tests
             // Assert
             _sb.ToString().Should().Be($"[a,{_nl} b,{_nl} c]");
         }
+
+        [Fact]
+        public void MaxLength()
+        {
+            // Arrange
+            var doc = Document.NeverBreak(
+                "hello, ".AsDocument(),
+                "world!".AsDocument()
+            );
+            var renderer = new Renderer(5, 5);
+
+            // Act
+            renderer.Render(doc, _sb);
+
+            // Assert
+            _sb.ToString().Length.Should().BeLessThan("hello, world!".Length);
+        }
     }
 }

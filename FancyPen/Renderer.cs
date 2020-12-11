@@ -8,11 +8,13 @@ namespace FancyPen
     {
         private int _indentation = 0;
         private int _maxColumn;
+        private int _maxLength;
         private StringBuilder _currentLine;
 
-        public Renderer(int maxColumn = 80)
+        public Renderer(int maxColumn = 80, int maxLength = int.MaxValue)
         {
             _maxColumn = maxColumn;
+            _maxLength = maxLength;
         }
 
         public void Render(Document document, StringBuilder destination)
@@ -24,6 +26,10 @@ namespace FancyPen
 
         private void RenderImpl(Document document, StringBuilder destination)
         {
+            if (destination.Length + _currentLine.Length > _maxLength)
+            {
+                return;
+            }
             switch (document)
             {
                 case StringDocument doc:
@@ -76,7 +82,7 @@ namespace FancyPen
 
         private void RenderMaybeBreak(MaybeBreak doc, StringBuilder destination)
         {
-            var otherRenderer = new Renderer(int.MaxValue);
+            var otherRenderer = new Renderer(int.MaxValue, _maxColumn);
             var oneLineDestination = new StringBuilder();
             otherRenderer.Render(new NeverBreak(doc.Children), oneLineDestination);
             if (_currentLine.Length + oneLineDestination.Length <= _maxColumn)
