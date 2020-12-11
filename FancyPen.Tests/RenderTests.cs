@@ -242,14 +242,14 @@ namespace FancyPen.Tests
         }
 
         [Fact]
-        public void MildlyComplex()
+        public void MildlyComplexSaveIndentation()
         {
             // Arrange
-            var doc = MakeArray(
+            var doc = MakeArraySaveIndentation(
                 "a",
                 "b",
                 "c",
-                MakeArray(
+                MakeArraySaveIndentation(
                     "d",
                     "e",
                     "f")
@@ -263,11 +263,58 @@ namespace FancyPen.Tests
             _sb.ToString().Should().Be($"[a,{_nl} b,{_nl} c,{_nl} [d,{_nl}  e,{_nl}  f]]");
         }
 
-        private Document MakeArray(params Document[] documents)
+        [Fact]
+        public void MildlyComplexIndent()
+        {
+            // Arrange
+            var doc = MakeArrayIndent(
+                "a",
+                "b",
+                "c",
+                MakeArrayIndent(
+                    "d",
+                    "e",
+                    "f")
+            );
+            var renderer = new Renderer(5);
+
+            // Act
+            renderer.Render(doc, _sb);
+
+            // Assert
+            _sb.ToString().Should().Be(@"[
+    a,
+    b,
+    c,
+    [
+        d,
+        e,
+        f
+    ]
+]");
+        }
+
+        private Document MakeArraySaveIndentation(params Document[] documents)
         {
             return Document.NeverBreak(
                 "[",
                 Document.SaveIndentation(
+                    Document.MaybeBreakSeparator(
+                        " ",
+                        Document.WithSeparator(
+                            ",",
+                            documents
+                        )
+                    )),
+                "]");
+        }
+
+        private Document MakeArrayIndent(params Document[] documents)
+        {
+            return Document.MaybeBreak(
+                "[",
+                Document.Indent(
+                    4,
                     Document.MaybeBreakSeparator(
                         " ",
                         Document.WithSeparator(
