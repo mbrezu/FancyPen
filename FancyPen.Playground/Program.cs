@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Text;
+using System.Text.Json;
 
 namespace FancyPen.Playground
 {
@@ -7,15 +7,11 @@ namespace FancyPen.Playground
     {
         static void Main(string[] args)
         {
-            var doc = Document.Concat(
-                "hello",
-                " ",
-                "world!"
-            );
-            var renderer = new Renderer();
-            var sb = new StringBuilder();
-            renderer.Render(doc, sb);
-            Console.WriteLine(sb.ToString());
+            var json = JsonDocument.Parse("{\"a\": 2}");
+
+            var result = FancyPen.Json.PrettyPrinter.Print(json);
+
+            Console.WriteLine(result);
         }
     }
 }
