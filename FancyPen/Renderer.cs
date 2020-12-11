@@ -9,13 +9,12 @@ namespace FancyPen
     {
         private int _indentation = 0;
         private int _maxColumn;
-        private int _maxLength;
+        private int MaxLength { get; set; } = int.MaxValue;
         private StringBuilder _currentLine;
 
-        public Renderer(int maxColumn = 80, int maxLength = int.MaxValue)
+        public Renderer(int maxColumn = 80)
         {
             _maxColumn = maxColumn;
-            _maxLength = maxLength;
         }
 
         public void Render(Document document, StringBuilder destination)
@@ -27,7 +26,7 @@ namespace FancyPen
 
         private void RenderImpl(Document document, StringBuilder destination)
         {
-            if (destination.Length + _currentLine.Length > _maxLength)
+            if (destination.Length + _currentLine.Length > MaxLength)
             {
                 return;
             }
@@ -89,7 +88,8 @@ namespace FancyPen
             IEnumerable<Document> children,
             StringBuilder destination)
         {
-            var otherRenderer = new Renderer(int.MaxValue, _maxColumn);
+            var otherRenderer = new Renderer(int.MaxValue);
+            otherRenderer.MaxLength = _maxColumn;
             var oneLineDestination = new StringBuilder();
             if (separator != null)
             {

@@ -200,23 +200,6 @@ namespace FancyPen.Tests
         }
 
         [Fact]
-        public void MaxLength()
-        {
-            // Arrange
-            var doc = Document.NeverBreak(
-                "hello, ",
-                "world!"
-            );
-            var renderer = new Renderer(5, 5);
-
-            // Act
-            renderer.Render(doc, _sb);
-
-            // Assert
-            _sb.ToString().Length.Should().BeLessThan("hello, world!".Length);
-        }
-
-        [Fact]
         public void MaybeBreakSeparator()
         {
             // Arrange
