@@ -29,6 +29,8 @@ As examples of how to use these primitives, see the [Utils](https://github.com/m
 
 See the [Renderer tests](https://github.com/mbrezu/FancyPen/blob/master/FancyPen.Json/PrettyPrinter.cs).
 
+# Examples
+
 As an example, a [JSON pretty printer](https://github.com/mbrezu/FancyPen/blob/master/FancyPen.Json/PrettyPrinter.cs) (for [JsonDocument](https://docs.microsoft.com/en-us/dotnet/api/system.text.json.jsondocument?view=net-5.0) and [JsonElement](https://docs.microsoft.com/en-us/dotnet/api/system.text.json.jsonelement)) made with FancyPen is provided.
 
 Sample formatted JSON:
