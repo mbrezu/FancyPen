@@ -1,2 +1,5 @@
 - todo:
+  - [ ] test the nuget!!
+  - [ ] don't expose the StringBuilder when rendering (return a string directly)
+    - [ ] or at least provide the option to return a string directly.
   - [ ] one more example for something else?
