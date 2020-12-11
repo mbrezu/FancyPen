@@ -1,6 +1,4 @@
 - todo:
-  - [ ] System.Text.Json JsonDocument JsonElement pretty printing
   - [ ] one more example for something else?
   - [ ] documentation
   - [ ] nuget
-  - [ ] github
