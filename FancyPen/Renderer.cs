@@ -50,8 +50,8 @@ namespace FancyPen
                 case Indent doc:
                     RenderIndent(destination, doc);
                     break;
-                case SaveIndentation doc:
-                    RenderSaveIndentation(destination, doc);
+                case KeepIndentation doc:
+                    RenderKeepIndentation(destination, doc);
                     break;
                 default:
                     throw new NotImplementedException();
@@ -94,7 +94,7 @@ namespace FancyPen
             if (separator != null)
             {
                 otherRenderer.Render(
-                    new Concat(Document.WithSeparator(separator, children.ToArray())),
+                    new Concat(Utils.WithSeparator(separator, children.ToArray())),
                     oneLineDestination);
             }
             else
@@ -122,7 +122,7 @@ namespace FancyPen
             _indentation -= doc.Amount;
         }
 
-        private void RenderSaveIndentation(StringBuilder destination, SaveIndentation doc)
+        private void RenderKeepIndentation(StringBuilder destination, KeepIndentation doc)
         {
             var oldIndentation = _indentation;
             _indentation = _currentLine.Length;

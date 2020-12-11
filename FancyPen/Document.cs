@@ -16,25 +16,8 @@ namespace FancyPen
         public static Document Format(params Document[] children)
             => new Format(children);
 
-        public static Document[] WithSeparator(Document separator, params Document[] children)
-        {
-            List<Document> result = new();
-            for (int i = 0; i < children.Length; i++)
-            {
-                if (i < children.Length - 1)
-                {
-                    result.Add(Document.Concat(children[i], separator));
-                }
-                else
-                {
-                    result.Add(children[i]);
-                }
-            }
-            return result.ToArray();
-        }
-
-        public static Document SaveIndentation(Document child)
-            => new SaveIndentation(child);
+        public static Document KeepIndentation(Document child)
+            => new KeepIndentation(child);
 
         public static Document FormatSeparator(Document separator, params Document[] children)
             => new FormatSeparator(separator, children);
@@ -52,7 +35,7 @@ namespace FancyPen
 
     record Format(IEnumerable<Document> Children) : Document;
 
-    record SaveIndentation(Document Child) : Document;
+    record KeepIndentation(Document Child) : Document;
 
     record FormatSeparator(Document Separator, IEnumerable<Document> Children): Document;
 }

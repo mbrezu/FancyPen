@@ -163,7 +163,7 @@ namespace FancyPen.Tests
             var doc = Document.Concat(
                 "[",
                     Document.Concat(
-                        Document.WithSeparator(",",
+                        Utils.WithSeparator(",",
                             "a",
                             "b",
                             "c")),
@@ -178,14 +178,14 @@ namespace FancyPen.Tests
         }
 
         [Fact]
-        public void SaveIndentation()
+        public void KeepIndentation()
         {
             // Arrange
             var doc = Document.Concat(
                 "[",
-                    Document.SaveIndentation(
+                    Document.KeepIndentation(
                         Document.Format(
-                            Document.WithSeparator(",",
+                            Utils.WithSeparator(",",
                                 "a",
                                 "b",
                                 "c"))),
@@ -207,7 +207,7 @@ namespace FancyPen.Tests
                 "[",
                 Document.FormatSeparator(
                     " ",
-                    Document.WithSeparator(
+                    Utils.WithSeparator(
                         ",",
                         "a",
                         "b",
@@ -225,14 +225,14 @@ namespace FancyPen.Tests
         }
 
         [Fact]
-        public void MildlyComplexSaveIndentation()
+        public void MildlyComplexKeepIndentation()
         {
             // Arrange
-            var doc = MakeArraySaveIndentation(
+            var doc = MakeArrayKeepIndentation(
                 "a",
                 "b",
                 "c",
-                MakeArraySaveIndentation(
+                MakeArrayKeepIndentation(
                     "d",
                     "e",
                     "f")
@@ -277,35 +277,14 @@ namespace FancyPen.Tests
 ]");
         }
 
-        private Document MakeArraySaveIndentation(params Document[] documents)
+        private Document MakeArrayKeepIndentation(params Document[] documents)
         {
-            return Document.Concat(
-                "[",
-                Document.SaveIndentation(
-                    Document.FormatSeparator(
-                        " ",
-                        Document.WithSeparator(
-                            ",",
-                            documents
-                        )
-                    )),
-                "]");
+            return Utils.BracedListKeepIndentation(new BracedListConfig("[", "]"), documents);
         }
 
         private Document MakeArrayIndent(params Document[] documents)
         {
-            return Document.Format(
-                "[",
-                Document.Indent(
-                    4,
-                    Document.FormatSeparator(
-                        " ",
-                        Document.WithSeparator(
-                            ",",
-                            documents
-                        )
-                    )),
-                "]");
+            return Utils.BracedListIndentAmount(new BracedListConfig("[", "]"), 4, documents);
         }
     }
 }

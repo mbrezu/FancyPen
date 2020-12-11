@@ -57,7 +57,7 @@ namespace FancyPen.Tests
             // Act
             var result = FancyPen.Json.PrettyPrinter.Print(
                 json,
-                new PrettyPrinterOptions(new KeepIndentation(), 10));
+                new PrettyPrinterOptions(new KeepIndentationOption(), 10));
 
             // Assert
             result.Should().Be(@"[ 100,
@@ -76,7 +76,7 @@ namespace FancyPen.Tests
             // Act
             var result = FancyPen.Json.PrettyPrinter.Print(
                 json,
-                new PrettyPrinterOptions(new IndentAmount(4), 10));
+                new PrettyPrinterOptions(new IndentAmountOption(4), 10));
 
             // Assert
             result.Should().Be(@"[
@@ -97,7 +97,7 @@ namespace FancyPen.Tests
             // Act
             var result = FancyPen.Json.PrettyPrinter.Print(
                 json,
-                new PrettyPrinterOptions(new KeepIndentation(), 10));
+                new PrettyPrinterOptions(new KeepIndentationOption(), 10));
 
             // Assert
             result.Should().Be(@"{ ""a"": 1000,
@@ -114,7 +114,7 @@ namespace FancyPen.Tests
             // Act
             var result = FancyPen.Json.PrettyPrinter.Print(
                 json,
-                new PrettyPrinterOptions(new IndentAmount(4), 10));
+                new PrettyPrinterOptions(new IndentAmountOption(4), 10));
 
             // Assert
             result.Should().Be(@"{
@@ -142,7 +142,7 @@ namespace FancyPen.Tests
             // Act
             var result = FancyPen.Json.PrettyPrinter.Print(
                 json,
-                new PrettyPrinterOptions(new IndentAmount(4), 60));
+                new PrettyPrinterOptions(new IndentAmountOption(4), 60));
 
             // Assert
             result.Should().Be(@"{

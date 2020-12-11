@@ -7,6 +7,15 @@ namespace FancyPen.Json
 {
     public static class PrettyPrinter
     {
+        private static BracedListConfig _arrayConfigKeepIndentation 
+            = new BracedListConfig("[ ", " ]");
+        private static BracedListConfig _arrayConfigIndentAmount 
+            = new BracedListConfig("[", "]");
+        private static BracedListConfig _objectConfigKeepIndentation 
+            = new BracedListConfig("{ ", " }");
+        private static BracedListConfig _objectConfigIndentAmount 
+            = new BracedListConfig("{", "}");
+
         public static string Print(JsonDocument document, PrettyPrinterOptions options = null)
         {
             return Print(document.RootElement, options);
@@ -25,7 +34,7 @@ namespace FancyPen.Json
             return sb.ToString();
         }
 
-        private static Document PrintImpl(JsonElement element, Indentation indentation)
+        private static Document PrintImpl(JsonElement element, IndentationOptions indentation)
         {
             return element.ValueKind switch 
             {
@@ -41,111 +50,50 @@ namespace FancyPen.Json
             };
         }
 
-        private static Document PrintArray(JsonElement element, Indentation indentation)
+        private static Document PrintArray(JsonElement element, IndentationOptions indentation)
+        {
+            var children = element
+                .EnumerateArray()
+                .Select(element => PrintImpl(element, indentation))
+                .ToArray();
+            return CreateBracedList(
+                _arrayConfigKeepIndentation,
+                _arrayConfigIndentAmount,
+                indentation,
+                children);
+        }
+
+        private static Document CreateBracedList(
+            BracedListConfig configKeepIndentation,
+            BracedListConfig configIndentAmount,
+            IndentationOptions indentation,
+            Document[] children)
         {
             switch (indentation)
             {
-                case KeepIndentation:
-                    return PrintArrayKeepIndentation(element, indentation);
-                case IndentAmount indent:
-                    return PrintArrayIndentAmount(element, indent.Amount, indentation);
+                case KeepIndentationOption:
+                    return Utils.BracedListKeepIndentation(configKeepIndentation, children);
+                case IndentAmountOption indent:
+                    return Utils.BracedListIndentAmount(configIndentAmount, indent.Amount, children);
                 default:
                     throw new NotImplementedException();
             }
         }
 
-        private static Document PrintArrayKeepIndentation(
-            JsonElement element,
-            Indentation indentation)
+        private static Document PrintObject(JsonElement element, IndentationOptions indentation)
         {
-            return Document.Concat(
-                "[ ",
-                Document.SaveIndentation(
-                    Document.FormatSeparator(
-                        " ",
-                        Document.WithSeparator(
-                            ",",
-                            element
-                                .EnumerateArray()
-                                .Select(element => PrintImpl(element, indentation)).ToArray()
-                        )
-                    )),
-                " ]");
+            var children = element
+                .EnumerateObject()
+                .Select(element => PrintKeyValue(element, indentation))
+                .ToArray();
+            return CreateBracedList(
+                _objectConfigKeepIndentation,
+                _objectConfigIndentAmount,
+                indentation,
+                children);
         }
 
-        private static Document PrintArrayIndentAmount(
-            JsonElement element,
-            int amount,
-            Indentation indentation)
-        {
-            return Document.Format(
-                "[",
-                Document.Indent(
-                    amount,
-                    Document.FormatSeparator(
-                        " ",
-                        Document.WithSeparator(
-                            ",",
-                            element
-                                .EnumerateArray()
-                                .Select(element => PrintImpl(element, indentation)).ToArray()
-                        )
-                    )),
-                "]");
-        }
-
-        private static Document PrintObject(JsonElement element, Indentation indentation)
-        {
-            switch (indentation)
-            {
-                case KeepIndentation:
-                    return PrintObjectKeepIndentation(element, indentation);
-                case IndentAmount indent:
-                    return PrintObjectIndentAmount(element, indent.Amount, indentation);
-                default:
-                    throw new NotImplementedException();
-            }
-        }
-
-        private static Document PrintObjectKeepIndentation(JsonElement element, Indentation indentation)
-        {
-            return Document.Concat(
-                "{ ",
-                Document.SaveIndentation(
-                    Document.FormatSeparator(
-                        " ",
-                        Document.WithSeparator(
-                            ",",
-                            element
-                                .EnumerateObject()
-                                .Select(element => PrintKeyValue(element, indentation)).ToArray()
-                        )
-                    )),
-                " }");
-        }
-
-        private static Document PrintObjectIndentAmount(
-            JsonElement element,
-            int amount,
-            Indentation indentation)
-        {
-            return Document.Format(
-                "{",
-                Document.Indent(
-                    amount,
-                    Document.FormatSeparator(
-                        " ",
-                        Document.WithSeparator(
-                            ",",
-                            element
-                                .EnumerateObject()
-                                .Select(element => PrintKeyValue(element, indentation)).ToArray()
-                        )
-                    )),
-                "}");
-        }
-
-        private static Document PrintKeyValue(JsonProperty element, Indentation indentation)
+        private static Document PrintKeyValue(JsonProperty element, IndentationOptions indentation)
         {
             return Document.Concat(
                 JsonSerializer.Serialize(element.Name),
