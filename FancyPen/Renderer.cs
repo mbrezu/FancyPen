@@ -24,6 +24,13 @@ namespace FancyPen
             destination.Append(_currentLine);
         }
 
+        public string Render(Document document)
+        {
+            var sb = new StringBuilder();
+            Render(document, sb);
+            return sb.ToString();
+        }
+
         private void RenderImpl(Document document, StringBuilder destination)
         {
             if (destination.Length + _currentLine.Length > MaxLength)

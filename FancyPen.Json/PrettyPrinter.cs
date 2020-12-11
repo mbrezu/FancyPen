@@ -29,9 +29,7 @@ namespace FancyPen.Json
             }
             var doc = PrintImpl(element, options.Indentation);
             var renderer = new Renderer(options.MaxColumn);
-            var sb = new StringBuilder();
-            renderer.Render(doc, sb);
-            return sb.ToString();
+            return renderer.Render(doc);
         }
 
         private static Document PrintImpl(JsonElement element, IndentationOptions indentation)

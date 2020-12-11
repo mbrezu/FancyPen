@@ -8,7 +8,6 @@ namespace FancyPen.Tests
     public class RenderTests
     {
         private string _nl = Environment.NewLine;
-        private StringBuilder _sb = new();
 
         [Fact]
         public void ConcatBasic()
@@ -22,10 +21,29 @@ namespace FancyPen.Tests
             var renderer = new Renderer();
 
             // Act
-            renderer.Render(doc, _sb);
+            var result = renderer.Render(doc);
 
             // Assert
-            _sb.ToString().Should().Be("hello world!");
+            result.Should().Be("hello world!");
+        }
+
+        [Fact]
+        public void ConcatBasicWithStringBuilder()
+        {
+            // Arrange
+            var doc = Document.Concat(
+                "hello",
+                " ",
+                "world!"
+            );
+            var renderer = new Renderer();
+            var sb = new StringBuilder();
+
+            // Act
+            renderer.Render(doc, sb);
+
+            // Assert
+            sb.ToString().Should().Be("hello world!");
         }
 
         [Fact]
@@ -40,10 +58,10 @@ namespace FancyPen.Tests
             var renderer = new Renderer();
 
             // Act
-            renderer.Render(doc, _sb);
+            var result = renderer.Render(doc);
 
             // Assert
-            _sb.ToString().Should().Be($"hello{_nl} {_nl}world!");
+            result.Should().Be($"hello{_nl} {_nl}world!");
         }
 
         [Fact]
@@ -57,10 +75,10 @@ namespace FancyPen.Tests
             var renderer = new Renderer();
 
             // Act
-            renderer.Render(doc, _sb);
+            var result = renderer.Render(doc);
 
             // Assert
-            _sb.ToString().Should().Be($"  hello{_nl}  world!");
+            result.Should().Be($"  hello{_nl}  world!");
         }
 
         [Fact]
@@ -74,10 +92,10 @@ namespace FancyPen.Tests
             var renderer = new Renderer(10);
 
             // Act
-            renderer.Render(doc, _sb);
+            var result = renderer.Render(doc);
 
             // Assert
-            _sb.ToString().Should().Be($"hello, {_nl}world!");
+            result.Should().Be($"hello, {_nl}world!");
         }
 
         [Fact]
@@ -91,10 +109,10 @@ namespace FancyPen.Tests
             var renderer = new Renderer(16);
 
             // Act
-            renderer.Render(doc, _sb);
+            var result = renderer.Render(doc);
 
             // Assert
-            _sb.ToString().Should().Be($"    hello, {_nl}world!");
+            result.Should().Be($"    hello, {_nl}world!");
         }
 
         [Fact]
@@ -108,10 +126,10 @@ namespace FancyPen.Tests
             var renderer = new Renderer();
 
             // Act
-            renderer.Render(doc, _sb);
+            var result = renderer.Render(doc);
 
             // Assert
-            _sb.ToString().Should().Be($"hello, world!");
+            result.Should().Be($"hello, world!");
         }
 
         [Fact]
@@ -129,10 +147,10 @@ namespace FancyPen.Tests
             var renderer = new Renderer(2);
 
             // Act
-            renderer.Render(doc, _sb);
+            var result = renderer.Render(doc);
 
             // Assert
-            _sb.ToString().Should().Be($"[{_nl}  a, {_nl}  b, {_nl}  c{_nl}]");
+            result.Should().Be($"[{_nl}  a, {_nl}  b, {_nl}  c{_nl}]");
         }
 
         [Fact]
@@ -150,10 +168,10 @@ namespace FancyPen.Tests
             var renderer = new Renderer(8);
 
             // Act
-            renderer.Render(doc, _sb);
+            var result = renderer.Render(doc);
 
             // Assert
-            _sb.ToString().Should().Be($"[{_nl} a, b, c{_nl}]");
+            result.Should().Be($"[{_nl} a, b, c{_nl}]");
         }
 
         [Fact]
@@ -171,10 +189,10 @@ namespace FancyPen.Tests
             var renderer = new Renderer();
 
             // Act
-            renderer.Render(doc, _sb);
+            var result = renderer.Render(doc);
 
             // Assert
-            _sb.ToString().Should().Be($"[a,b,c]");
+            result.Should().Be($"[a,b,c]");
         }
 
         [Fact]
@@ -193,10 +211,10 @@ namespace FancyPen.Tests
             var renderer = new Renderer(5);
 
             // Act
-            renderer.Render(doc, _sb);
+            var result = renderer.Render(doc);
 
             // Assert
-            _sb.ToString().Should().Be($"[a,{_nl} b,{_nl} c]");
+            result.Should().Be($"[a,{_nl} b,{_nl} c]");
         }
 
         [Fact]
@@ -218,10 +236,10 @@ namespace FancyPen.Tests
             var renderer = new Renderer();
 
             // Act
-            renderer.Render(doc, _sb);
+            var result = renderer.Render(doc);
 
             // Assert
-            _sb.ToString().Should().Be("[a, b, c]");
+            result.Should().Be("[a, b, c]");
         }
 
         [Fact]
@@ -240,10 +258,10 @@ namespace FancyPen.Tests
             var renderer = new Renderer(5);
 
             // Act
-            renderer.Render(doc, _sb);
+            var result = renderer.Render(doc);
 
             // Assert
-            _sb.ToString().Should().Be($"[a,{_nl} b,{_nl} c,{_nl} [d,{_nl}  e,{_nl}  f]]");
+            result.Should().Be($"[a,{_nl} b,{_nl} c,{_nl} [d,{_nl}  e,{_nl}  f]]");
         }
 
         [Fact]
@@ -262,10 +280,10 @@ namespace FancyPen.Tests
             var renderer = new Renderer(5);
 
             // Act
-            renderer.Render(doc, _sb);
+            var result = renderer.Render(doc);
 
             // Assert
-            _sb.ToString().Should().Be(@"[
+            result.Should().Be(@"[
     a,
     b,
     c,
