@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FancyPen.Tests", "FancyPen.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FancyPen.Json", "FancyPen.Json\FancyPen.Json.csproj", "{957DE1EA-AE08-4C3B-90CA-C0B2D0D36F7C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FancyPen.NugetTest", "FancyPen.NugetTest\FancyPen.NugetTest.csproj", "{2927CC20-37D3-4BE6-A191-7453D5905858}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FancyPen.Json.NugetTest", "FancyPen.Json.NugetTest\FancyPen.Json.NugetTest.csproj", "{534E51F1-41FE-4E61-AF98-22787F9F1792}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +37,14 @@ Global
 		{957DE1EA-AE08-4C3B-90CA-C0B2D0D36F7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{957DE1EA-AE08-4C3B-90CA-C0B2D0D36F7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{957DE1EA-AE08-4C3B-90CA-C0B2D0D36F7C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2927CC20-37D3-4BE6-A191-7453D5905858}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2927CC20-37D3-4BE6-A191-7453D5905858}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2927CC20-37D3-4BE6-A191-7453D5905858}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2927CC20-37D3-4BE6-A191-7453D5905858}.Release|Any CPU.Build.0 = Release|Any CPU
+		{534E51F1-41FE-4E61-AF98-22787F9F1792}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{534E51F1-41FE-4E61-AF98-22787F9F1792}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{534E51F1-41FE-4E61-AF98-22787F9F1792}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{534E51F1-41FE-4E61-AF98-22787F9F1792}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
