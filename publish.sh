@@ -2,6 +2,8 @@
 
 # usage: ./publish.sh <api key>
 
+VERSION=0.0.3
+
 set -e
 
 cd FancyPen
@@ -15,5 +17,5 @@ dotnet pack -c Release
 cd ..
 dotnet test
 
-dotnet nuget push ./bin/Release/FancyPen.0.0.2.nupkg --api-key $1 --source https://api.nuget.org/v3/index.json
-dotnet nuget push ./bin/Release/FancyPen.Json.0.0.2.nupkg --api-key $1 --source https://api.nuget.org/v3/index.json
+dotnet nuget push FancyPen/bin/Release/FancyPen.$VERSION.nupkg --api-key $1 --source https://api.nuget.org/v3/index.json --skip-duplicate
+dotnet nuget push FancyPen.Json/bin/Release/FancyPen.Json.$VERSION.nupkg --api-key $1 --source https://api.nuget.org/v3/index.json --skip-duplicate
