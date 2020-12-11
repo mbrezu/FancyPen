@@ -38,6 +38,8 @@ namespace FancyPen
 
         public static Document MaybeBreakSeparator(Document separator, params Document[] children)
             => new MaybeBreakSeparator(separator, children);
+
+        public static implicit operator Document(string str) => new StringDocument(str);
     }
 
     record StringDocument(string Content): Document;

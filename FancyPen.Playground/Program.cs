@@ -8,9 +8,9 @@ namespace FancyPen.Playground
         static void Main(string[] args)
         {
             var doc = Document.NeverBreak(
-                "hello".AsDocument(),
-                " ".AsDocument(),
-                "world!".AsDocument()
+                "hello",
+                " ",
+                "world!"
             );
             var renderer = new Renderer();
             var sb = new StringBuilder();

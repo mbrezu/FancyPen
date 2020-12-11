@@ -15,9 +15,9 @@ namespace FancyPen.Tests
         {
             // Arrange
             var doc = Document.NeverBreak(
-                "hello".AsDocument(),
-                " ".AsDocument(),
-                "world!".AsDocument()
+                "hello",
+                " ",
+                "world!"
             );
             var renderer = new Renderer();
 
@@ -33,9 +33,9 @@ namespace FancyPen.Tests
         {
             // Arrange
             var doc = Document.AlwaysBreak(
-                "hello".AsDocument(),
-                " ".AsDocument(),
-                "world!".AsDocument()
+                "hello",
+                " ",
+                "world!"
             );
             var renderer = new Renderer();
 
@@ -51,8 +51,8 @@ namespace FancyPen.Tests
         {
             // Arrange
             var doc = Document.Indent(2, Document.AlwaysBreak(
-                "hello".AsDocument(),
-                "world!".AsDocument()
+                "hello",
+                "world!"
             ));
             var renderer = new Renderer();
 
@@ -68,8 +68,8 @@ namespace FancyPen.Tests
         {
             // Arrange
             var doc = Document.MaybeBreak(
-                "hello, ".AsDocument(),
-                "world!".AsDocument()
+                "hello, ",
+                "world!"
             );
             var renderer = new Renderer(10);
 
@@ -84,9 +84,9 @@ namespace FancyPen.Tests
         public void MaybeBreakWithBreaksAndIndentation()
         {
             // Arrange
-            var doc = Document.NeverBreak("    ".AsDocument(), Document.MaybeBreak(
-                "hello, ".AsDocument(),
-                "world!".AsDocument()
+            var doc = Document.NeverBreak("    ", Document.MaybeBreak(
+                "hello, ",
+                "world!"
             ));
             var renderer = new Renderer(16);
 
@@ -102,8 +102,8 @@ namespace FancyPen.Tests
         {
             // Arrange
             var doc = Document.MaybeBreak(
-                "hello, ".AsDocument(),
-                "world!".AsDocument()
+                "hello, ",
+                "world!"
             );
             var renderer = new Renderer();
 
@@ -119,13 +119,13 @@ namespace FancyPen.Tests
         {
             // Arrange
             var doc = Document.MaybeBreak(
-                "[".AsDocument(),
+                "[",
                 Document.Indent(2,
                     Document.MaybeBreak(
-                        "a, ".AsDocument(),
-                        "b, ".AsDocument(),
-                        "c".AsDocument())),
-                "]".AsDocument());
+                        "a, ",
+                        "b, ",
+                        "c")),
+                "]");
             var renderer = new Renderer(2);
 
             // Act
@@ -140,13 +140,13 @@ namespace FancyPen.Tests
         {
             // Arrange
             var doc = Document.MaybeBreak(
-                "[".AsDocument(),
+                "[",
                 Document.Indent(1,
                     Document.MaybeBreak(
-                        "a, ".AsDocument(),
-                        "b, ".AsDocument(),
-                        "c".AsDocument())),
-                "]".AsDocument());
+                        "a, ",
+                        "b, ",
+                        "c")),
+                "]");
             var renderer = new Renderer(8);
 
             // Act
@@ -161,13 +161,13 @@ namespace FancyPen.Tests
         {
             // Arrange
             var doc = Document.NeverBreak(
-                "[".AsDocument(),
+                "[",
                     Document.NeverBreak(
-                        Document.WithSeparator(",".AsDocument(),
-                            "a".AsDocument(),
-                            "b".AsDocument(),
-                            "c".AsDocument())),
-                "]".AsDocument());
+                        Document.WithSeparator(",",
+                            "a",
+                            "b",
+                            "c")),
+                "]");
             var renderer = new Renderer();
 
             // Act
@@ -182,14 +182,14 @@ namespace FancyPen.Tests
         {
             // Arrange
             var doc = Document.NeverBreak(
-                "[".AsDocument(),
+                "[",
                     Document.SaveIndentation(
                         Document.MaybeBreak(
-                            Document.WithSeparator(",".AsDocument(),
-                                "a".AsDocument(),
-                                "b".AsDocument(),
-                                "c".AsDocument()))),
-                "]".AsDocument());
+                            Document.WithSeparator(",",
+                                "a",
+                                "b",
+                                "c"))),
+                "]");
             var renderer = new Renderer(5);
 
             // Act
@@ -204,8 +204,8 @@ namespace FancyPen.Tests
         {
             // Arrange
             var doc = Document.NeverBreak(
-                "hello, ".AsDocument(),
-                "world!".AsDocument()
+                "hello, ",
+                "world!"
             );
             var renderer = new Renderer(5, 5);
 
@@ -221,17 +221,17 @@ namespace FancyPen.Tests
         {
             // Arrange
             var doc = Document.NeverBreak(
-                "[".AsDocument(),
+                "[",
                 Document.MaybeBreakSeparator(
-                    " ".AsDocument(),
+                    " ",
                     Document.WithSeparator(
-                        ",".AsDocument(),
-                        "a".AsDocument(),
-                        "b".AsDocument(),
-                        "c".AsDocument()
+                        ",",
+                        "a",
+                        "b",
+                        "c"
                     )
                 ),
-                "]".AsDocument());
+                "]");
             var renderer = new Renderer();
 
             // Act
@@ -246,13 +246,13 @@ namespace FancyPen.Tests
         {
             // Arrange
             var doc = MakeArray(
-                "a".AsDocument(),
-                "b".AsDocument(),
-                "c".AsDocument(),
+                "a",
+                "b",
+                "c",
                 MakeArray(
-                    "d".AsDocument(),
-                    "e".AsDocument(),
-                    "f".AsDocument())
+                    "d",
+                    "e",
+                    "f")
             );
             var renderer = new Renderer(5);
 
@@ -266,16 +266,16 @@ namespace FancyPen.Tests
         private Document MakeArray(params Document[] documents)
         {
             return Document.NeverBreak(
-                "[".AsDocument(),
+                "[",
                 Document.SaveIndentation(
                     Document.MaybeBreakSeparator(
-                        " ".AsDocument(),
+                        " ",
                         Document.WithSeparator(
-                            ",".AsDocument(),
+                            ",",
                             documents
                         )
                     )),
-                "]".AsDocument());
+                "]");
         }
     }
 }
