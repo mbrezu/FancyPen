@@ -43,10 +43,10 @@ namespace FancyPen
                     _currentLine.Append(doc.Content);
                     break;
                 case Concat doc:
-                    RenderConcat(doc, destination);
+                    RenderConcat(doc.Children, destination);
                     break;
                 case ConcatLines doc:
-                    RenderConcatLines(doc, destination);
+                    RenderConcatLines(doc.Children, destination);
                     break;
                 case Format doc:
                     RenderFormat(null, doc.Children, destination);
@@ -65,20 +65,20 @@ namespace FancyPen
             }
         }
 
-        private void RenderConcat(Concat doc, StringBuilder destination)
+        private void RenderConcat(IEnumerable<Document> children, StringBuilder destination)
         {
-            foreach (var child in doc.Children)
+            foreach (var child in children)
             {
                 RenderImpl(child, destination);
             }
         }
 
-        private void RenderConcatLines(ConcatLines doc, StringBuilder destination)
+        private void RenderConcatLines(IEnumerable<Document> children, StringBuilder destination)
         {
-            if (doc.Children.Any()) {
-                RenderImpl(doc.Children.First(), destination);
+            if (children.Any()) {
+                RenderImpl(children.First(), destination);
             }
-            var rest = doc.Children.Skip(1);
+            var rest = children.Skip(1);
             if (rest.Any()) {
                 foreach (var child in rest) {
                     destination.Append(_currentLine);
@@ -114,7 +114,7 @@ namespace FancyPen
             }
             else
             {
-                RenderImpl(new ConcatLines(children), destination);
+                RenderConcatLines(children, destination);
             }
         }
 
