@@ -16,7 +16,7 @@ namespace FancyPen.Tests
             var json = JsonDocument.Parse("[\"a\", 2]");
 
             // Act
-            var result = FancyPen.Json.PrettyPrinter.Print(json);
+            var result = PrettyPrinter.Print(json);
 
             // Assert
             result.Should().Be("[ \"a\", 2 ]");
@@ -29,7 +29,7 @@ namespace FancyPen.Tests
             var json = JsonDocument.Parse("{\"a\": 2}");
 
             // Act
-            var result = FancyPen.Json.PrettyPrinter.Print(json);
+            var result = PrettyPrinter.Print(json);
 
             // Assert
             result.Should().Be("{ \"a\": 2 }");
@@ -42,7 +42,7 @@ namespace FancyPen.Tests
             var json = JsonDocument.Parse("[\"a\", 2, true, false, null]");
 
             // Act
-            var result = FancyPen.Json.PrettyPrinter.Print(json);
+            var result = PrettyPrinter.Print(json);
 
             // Assert
             result.Should().Be("[ \"a\", 2, true, false, null ]");
@@ -55,7 +55,7 @@ namespace FancyPen.Tests
             var json = JsonDocument.Parse("[\"\\\"a\", \"\\\"b\"]");
 
             // Act
-            var result = FancyPen.Json.PrettyPrinter.Print(json);
+            var result = PrettyPrinter.Print(json);
 
             // Assert
             result.Should().Be("[ \"\\\"a\", \"\\\"b\" ]");
@@ -68,7 +68,7 @@ namespace FancyPen.Tests
             var json = JsonDocument.Parse("[100, 200, 300, 400, 500]");
 
             // Act
-            var result = FancyPen.Json.PrettyPrinter.Print(
+            var result = PrettyPrinter.Print(
                 json,
                 new PrettyPrinterOptions(new KeepIndentationOption(), 10));
 
@@ -87,7 +87,7 @@ namespace FancyPen.Tests
             var json = JsonDocument.Parse("[100, 200, 300, 400, 500]");
 
             // Act
-            var result = FancyPen.Json.PrettyPrinter.Print(
+            var result = PrettyPrinter.Print(
                 json,
                 new PrettyPrinterOptions(new IndentAmountOption(4), 10));
 
@@ -108,7 +108,7 @@ namespace FancyPen.Tests
             var json = JsonDocument.Parse("{\"a\": 1000, \"b\": 2000, \"c\": 3000}");
 
             // Act
-            var result = FancyPen.Json.PrettyPrinter.Print(
+            var result = PrettyPrinter.Print(
                 json,
                 new PrettyPrinterOptions(new KeepIndentationOption(), 10));
 
@@ -125,7 +125,7 @@ namespace FancyPen.Tests
             var json = JsonDocument.Parse("{\"a\": 1000, \"b\": 2000, \"c\": 3000}");
 
             // Act
-            var result = FancyPen.Json.PrettyPrinter.Print(
+            var result = PrettyPrinter.Print(
                 json,
                 new PrettyPrinterOptions(new IndentAmountOption(4), 10));
 
@@ -145,7 +145,7 @@ namespace FancyPen.Tests
             var json = JsonDocument.Parse(jsonStr);
 
             // Act
-            var result = FancyPen.Json.PrettyPrinter.Print(json);
+            var result = PrettyPrinter.Print(json);
 
             // Assert
             result.Should().Be(@"{ ""age"": 20,
@@ -163,7 +163,7 @@ namespace FancyPen.Tests
             var json = JsonDocument.Parse(jsonStr);
 
             // Act
-            var result = FancyPen.Json.PrettyPrinter.Print(
+            var result = PrettyPrinter.Print(
                 json,
                 new PrettyPrinterOptions(new IndentAmountOption(4), 60));
 
