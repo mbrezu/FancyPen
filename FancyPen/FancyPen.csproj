@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <PackageId>FancyPen</PackageId>
-    <Version>0.0.3</Version>
+    <Version>0.0.4</Version>
     <Authors>Miron Brezuleanu</Authors>
     <PackageLicenseExpression>BSD-2-Clause</PackageLicenseExpression>
     <IncludeSource>true</IncludeSource>

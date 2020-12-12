@@ -2,7 +2,7 @@
 
 # usage: ./publish.sh <api key>
 
-VERSION=0.0.3
+VERSION=0.0.4
 
 set -e
 
