@@ -95,27 +95,33 @@ namespace FancyPen
             IEnumerable<Document> children,
             StringBuilder destination)
         {
-            var otherRenderer = new Renderer(int.MaxValue);
-            otherRenderer.MaxLength = _maxColumn;
-            var oneLineDestination = new StringBuilder();
-            if (separator != null)
+            StringBuilder oneLine = RenderOnOneLine(separator, children);
+            if (_currentLine.Length + oneLine.Length <= _maxColumn)
             {
-                otherRenderer.Render(
-                    new Concat(Utils.WithSeparator(separator, children.ToArray())),
-                    oneLineDestination);
-            }
-            else
-            {
-                otherRenderer.Render(new Concat(children), oneLineDestination);
-            }
-            if (_currentLine.Length + oneLineDestination.Length <= _maxColumn)
-            {
-                _currentLine.Append(oneLineDestination);
+                _currentLine.Append(oneLine);
             }
             else
             {
                 RenderConcatLines(children, destination);
             }
+        }
+
+        private StringBuilder RenderOnOneLine(Document separator, IEnumerable<Document> children)
+        {
+            var otherRenderer = new Renderer(int.MaxValue);
+            otherRenderer.MaxLength = _maxColumn;
+            var oneLineDestination = new StringBuilder();
+            if (separator != null)
+            {
+                var separatedChildren = Utils.WithSeparator(separator, children.ToArray());
+                otherRenderer.Render(new Concat(separatedChildren), oneLineDestination);
+            }
+            else
+            {
+                otherRenderer.Render(new Concat(children), oneLineDestination);
+            }
+
+            return oneLineDestination;
         }
 
         private void RenderIndent(StringBuilder destination, Indent doc)
