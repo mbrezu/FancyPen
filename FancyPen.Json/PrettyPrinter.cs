@@ -6,14 +6,12 @@ namespace FancyPen.Json
 {
     public static class PrettyPrinter
     {
-        record ListConfig(BracedListConfig KeepIndentation, BracedListConfig IndentAmount);
+        private record ListConfig(BracedListConfig KeepIndentation, BracedListConfig IndentAmount);
 
         private static ListConfig _arrayConfig = new ListConfig(
-            new BracedListConfig("[ ", " ]"),
-            new BracedListConfig("[", "]"));
+            new BracedListConfig("[ ", " ]"), new BracedListConfig("[", "]"));
         private static ListConfig _objectConfig = new ListConfig(
-            new BracedListConfig("{ ", " }"),
-            new BracedListConfig("{", "}"));
+            new BracedListConfig("{ ", " }"), new BracedListConfig("{", "}"));
 
         public static string Print(JsonDocument document, PrettyPrinterOptions options = null)
         {
@@ -53,10 +51,7 @@ namespace FancyPen.Json
                 .EnumerateArray()
                 .Select(element => PrintImpl(element, indentation))
                 .ToArray();
-            return CreateBracedList(
-                _arrayConfig,
-                indentation,
-                children);
+            return CreateBracedList(_arrayConfig, indentation, children);
         }
 
         private static Document CreateBracedList(
@@ -69,10 +64,7 @@ namespace FancyPen.Json
                 case KeepIndentationOption:
                     return Utils.BracedListKeepIndentation(listConfig.KeepIndentation, children);
                 case IndentAmountOption indent:
-                    return Utils.BracedListIndentAmount(
-                        listConfig.IndentAmount,
-                        indent.Amount,
-                        children);
+                    return Utils.BracedListIndentAmount(listConfig.IndentAmount, indent.Amount, children);
                 default:
                     throw new NotImplementedException();
             }
@@ -84,10 +76,7 @@ namespace FancyPen.Json
                 .EnumerateObject()
                 .Select(element => PrintKeyValue(element, indentation))
                 .ToArray();
-            return CreateBracedList(
-                _objectConfig,
-                indentation,
-                children);
+            return CreateBracedList(_objectConfig, indentation, children);
         }
 
         private static Document PrintKeyValue(JsonProperty element, IndentationOptions indentation)
