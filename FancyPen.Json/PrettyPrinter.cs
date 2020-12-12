@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Text.Json;
+using System.Web;
 
 namespace FancyPen.Json
 {
@@ -35,15 +36,17 @@ namespace FancyPen.Json
             {
                 JsonValueKind.Array => PrintArray(element, indentation),
                 JsonValueKind.Object => PrintObject(element, indentation),
-                JsonValueKind.String 
-                    or JsonValueKind.Number
-                    or JsonValueKind.True
-                    or JsonValueKind.False
-                    or JsonValueKind.Null
-                    => JsonSerializer.Serialize(element),
+                JsonValueKind.String => JsonEscape(element.GetString()),
+                JsonValueKind.Number => element.GetDecimal().ToString(),
+                JsonValueKind.True => "true",
+                JsonValueKind.False => "false",
+                JsonValueKind.Null => "null",
                 _ => throw new NotImplementedException()
             };
         }
+
+        private static string JsonEscape(string str)
+            => $"\"{HttpUtility.JavaScriptStringEncode(str)}\"";
 
         private static Document PrintArray(JsonElement element, IndentationOptions indentation)
         {
@@ -82,9 +85,7 @@ namespace FancyPen.Json
         private static Document PrintKeyValue(JsonProperty element, IndentationOptions indentation)
         {
             return Document.Concat(
-                JsonSerializer.Serialize(element.Name),
-                ": ",
-                PrintImpl(element.Value, indentation));
+                JsonEscape(element.Name), ": ", PrintImpl(element.Value, indentation));
         }
     }
 }

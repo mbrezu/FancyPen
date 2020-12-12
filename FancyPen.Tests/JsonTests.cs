@@ -49,6 +49,19 @@ namespace FancyPen.Tests
         }
 
         [Fact]
+        public void JsonEscape()
+        {
+            // Arrange
+            var json = JsonDocument.Parse("[\"\\\"a\", \"\\\"b\"]");
+
+            // Act
+            var result = FancyPen.Json.PrettyPrinter.Print(json);
+
+            // Assert
+            result.Should().Be("[ \"\\\"a\", \"\\\"b\" ]");
+        }
+
+        [Fact]
         public void ArrayKeepIndentation()
         {
             // Arrange
