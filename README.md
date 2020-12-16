@@ -63,6 +63,19 @@ Sample formatted JSON:
 
 (notice how the short `address` content is on one line, but the `array` is split over multiple lines).
 
+# Test Coverage
+
+[Coverlet](https://github.com/coverlet-coverage/coverlet#Quick-Start) and 
+[ReportGenerator](https://github.com/danielpalme/ReportGenerator) are used for generating and
+visualising test coverage.
+
+Install (if not done already) report generator as a global tool:
+```
+dotnet tool install -g dotnet-reportgenerator-globaltool
+```
+
+Run [`test.sh`](FancyPen.Tests/test.sh) inside the `FancyPen.Tests` folder to run the tools and generate a coverage report.
+
 # License
 
 [2-clause BSD](https://en.wikipedia.org/wiki/BSD_licenses#2-clause_license_.28.22Simplified_BSD_License.22_or_.22FreeBSD_License.22.29), see the [LICENSE](./LICENSE) file.
